@@ -1,27 +1,5 @@
 const video = document.getElementById('videoInput')
 // const faceapi= require('face-api.js')
-// function GFG_Fun() {
-                  
-//     // Create anchor element.
-//     var a = document.createElement('a'); 
-      
-//     // Create the text node for anchor element.
-//     var link = document.createTextNode("This is link");
-      
-//     // Append the text node to anchor element.
-//     a.appendChild(link); 
-      
-//     // Set the title.
-//     a.title = "This is Link"; 
-      
-//     // Set the href property.
-//     a.href = "https://www.geeksforgeeks.org"; 
-      
-//     // Append the anchor element to the body.
-//     document.body.appendChild(a); 
-// }
-
-
 
 Promise.all([
     faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
@@ -45,7 +23,7 @@ function start() {
 async function recognizeFaces() {
 
     const labeledDescriptors = await loadLabeledImages()
-    console.log(labeledDescriptors)
+    // console.log(labeledDescriptors)
     const faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.7)
 
 
@@ -55,9 +33,9 @@ async function recognizeFaces() {
         document.body.append(canvas)
 
         const displaySize = { width: video.width, height: video.height }
-        faceapi.matchDimensions(canvas, displaySize)
+        faceapi.matchDimensions(canvas, displaySize);
 
-        
+        var d=[];
 
         setInterval(async () => {
             const detections = await faceapi.detectAllFaces(video).withFaceLandmarks().withFaceDescriptors()
@@ -69,29 +47,32 @@ async function recognizeFaces() {
             const results = resizedDetections.map( (d) => {
                 return faceMatcher.findBestMatch(d.descriptor)
             })
-            // if(d.descriptior!= 'Unknown')
-            // {
-                
-            // }
+           
+            
             results.forEach( (result, i) => {
                 const box = resizedDetections[i].detection.box
                 const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() })
                 drawBox.draw(canvas)
             })
-        }, 100)
-        const link = document.createElement('a'); // generate node
-    link.setAttribute('href', '#');         // set attribute
-        link.textContent = 'Profile Page';               // assign some text
-        const element= document.getElementById('ProfileID')
-        document.body.append(a);
-         
+
+        },0)
+        // if(d.descriptior < 0.7)
+        //         {
+               
+        //         }
+        //    else{}
+            const link = document.createElement('a'); // generate node
+            link.setAttribute('href', '../profile.html');         // set attribute
+                link.textContent = 'Profile Page';               // assign some text
+                const element= document.getElementById('ProfileID')
+                document.body.append(link);
     })
 }
 
 
 function loadLabeledImages() {
-    const labels = ['Black Widow', 'Captain America', 'Hawkeye' , 'Jim Rhodes', 'Tony Stark', 'Thor', 'Captain Marvel']
-    // const labels = ['Tony Stark'] // for WebCam
+    // const labels = ['Black Widow', 'Captain America', 'Hawkeye' , 'Jim Rhodes', 'Tony Stark', 'Thor', 'Captain Marvel']
+    const labels = ['Pragya Agrawal'] // for WebCam
     return Promise.all(
         labels.map(async (label)=>{
             const descriptions = []
